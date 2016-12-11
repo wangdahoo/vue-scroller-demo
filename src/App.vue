@@ -1,60 +1,104 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <div class="header">
+      <h1 class="title">Refresh & Infinite</h1>
+    </div>
+
+    <scroller style="top: 44px"
+              :on-refresh="refresh"
+              :on-infinite="infinite"
+              ref="my_scroller">
+      <div v-for="(item, index) in items" class="row" :class="{'grey-bg': index % 2 == 0}">
+        {{ item }}
+      </div>
+    </scroller>
   </div>
 </template>
-
+<style>
+  html, body {
+    margin: 0;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  .row {
+    width: 100%;
+    height: 50px;
+    padding: 10px 0;
+    font-size: 16px;
+    line-height: 30px;
+    text-align: center;
+    color: #444;
+    background-color: #fff;
+  }
+  .grey-bg {
+    background-color: #eee;
+  }
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 44px;
+    width: 100%;
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.1);
+    background-color: #fff;
+    z-index: 1000;
+    color: #666;
+  }
+  .header > .title {
+    font-size: 16px;
+    line-height: 44px;
+    text-align: center;
+    margin: 0 auto;
+  }
+</style>
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  import Scroller from 'vue-scroller'
+
+  export default {
+    components: {
+      Scroller
+    },
+    data() {
+      return {
+        items: []
+      }
+    },
+    mounted() {
+    	for (var i = 1; i <= 20; i++) {
+        this.items.push(i + ' - keep walking, be 2 with you.');
+      }
+      this.top = 1;
+      this.bottom = 20;
+      setTimeout(() => {
+        this.$refs.my_scroller.resize();
+      })
+    },
+    methods: {
+      refresh() {
+        setTimeout(() => {
+          var start = this.top - 1
+          for (var i = start; i > start - 10; i--) {
+            this.items.splice(0, 0, i + ' - keep walking, be 2 with you.');
+          }
+          this.top = this.top - 10;
+          if (this.$refs.my_scroller)
+            this.$refs.my_scroller.finishPullToRefresh();
+        }, 1500)
+      },
+      infinite() {
+        setTimeout(() => {
+          var start = this.bottom + 1;
+          for (var i = start; i < start + 10; i++) {
+            this.items.push(i + ' - keep walking, be 2 with you.');
+          }
+          this.bottom = this.bottom + 10;
+          setTimeout(() => {
+            if (this.$refs.my_scroller)
+              this.$refs.my_scroller.resize();
+          })
+        }, 1500)
+      }
     }
   }
-}
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>

@@ -28,6 +28,10 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /vue-scroller.src.*?js$/,
+        loader: 'babel-loader'
       }
     ]
   },
