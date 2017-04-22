@@ -1,6 +1,6 @@
 {
   "name": "vue-scroller-demo",
-  "description": "A Vue.js project",
+  "description": "A demo for vue-scroller",
   "version": "1.0.0",
   "author": "wangdahoo <157195705@qq.com>",
   "private": true,
@@ -9,8 +9,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "vue": "^2.1.0",
-    "vue-scroller": "^2.0.0"
+    "vue": "^2.2.6",
+    "vue-scroller": "^2.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -19,9 +19,9 @@
     "cross-env": "^3.0.0",
     "css-loader": "^0.25.0",
     "file-loader": "^0.9.0",
-    "vue-loader": "^10.0.0",
-    "vue-template-compiler": "^2.1.0",
-    "webpack": "^2.1.0-beta.25",
-    "webpack-dev-server": "^2.1.0-beta.0"
+    "vue-loader": "^11.3.4",
+    "vue-template-compiler": "^2.2.6",
+    "webpack": "^2.2.4",
+    "webpack-dev-server": "^2.2.4"
   }
 }
